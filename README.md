@@ -35,6 +35,8 @@ Releases 의 `.vsix` 를 받아 확장 탭 → `…` → **Install from VSIX...*
 python npp/gen_npp.py "<스크립트 폴더>" <출력폴더>
 ```
 
+출력 폴더에 같이 생기는 `install.bat` 을 **우클릭 → 관리자 권한으로 실행**하면 아래를 알아서 복사한다. N++ 설치 경로가 다르면 파일 안 `NPP` 만 고치면 된다.
+
 | 만들어지는 파일 | 복사할 곳 |
 |---|---|
 | `userDefineLangs/Skript.udl.xml` | `%APPDATA%\Notepad++\userDefineLangs\` |

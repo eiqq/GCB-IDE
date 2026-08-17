@@ -153,6 +153,23 @@ def write_overridemap(path, installed):
     return True
 
 
+# %~dp0 로 자기 폴더를 참조한다. 배치 파일에 한글 경로를 박으면 코드페이지 때문에 깨진다.
+INSTALL_BAT = '''@echo off
+set NPP=C:\\Program Files\\Notepad++
+if not exist "%NPP%\\notepad++.exe" (
+	echo Notepad++ not found at "%NPP%" - edit NPP in this file.
+	pause & exit /b 1
+)
+copy /Y "%~dp0autoCompletion\\Skript.xml" "%NPP%\\autoCompletion\\"
+copy /Y "%~dp0functionList\\Skript.xml" "%NPP%\\functionList\\"
+copy /Y "%~dp0functionList\\overrideMap.xml" "%NPP%\\functionList\\"
+copy /Y "%~dp0userDefineLangs\\Skript.udl.xml" "%APPDATA%\\Notepad++\\userDefineLangs\\"
+echo.
+echo Done. Restart Notepad++.
+pause
+'''
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print(__doc__)
@@ -170,6 +187,9 @@ if __name__ == '__main__':
         os.path.join(out, 'functionList', 'overrideMap.xml'),
         r'C:\Program Files\Notepad++\functionList\overrideMap.xml')
 
+    open(os.path.join(out, 'install.bat'), 'w', encoding='ascii', newline='\r\n').write(INSTALL_BAT)
+
     print('전역 함수 %d개 -> %s' % (len(funcs), out))
+    print('  install.bat 을 우클릭 > 관리자 권한으로 실행')
     if not changed:
         print('  (overrideMap.xml 은 이미 Skript 연결이 있어 다시 만들지 않음)')
