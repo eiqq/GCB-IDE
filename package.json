@@ -1,0 +1,64 @@
+{
+	"name": "gcb-skript",
+	"displayName": "GCB Skript",
+	"description": "게임캐릭터배틀 서버 Skript 지원 - 함수/이벤트 표현식 자동완성, 파라미터 힌트, 정의로 이동, 구문 강조",
+	"version": "0.3.0",
+	"publisher": "local",
+	"engines": { "vscode": "^1.75.0" },
+	"categories": ["Programming Languages"],
+	"activationEvents": ["onLanguage:skript"],
+	"main": "./extension.js",
+	"contributes": {
+		"languages": [
+			{
+				"id": "skript",
+				"aliases": ["Skript", "skript"],
+				"extensions": [".sk"],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "skript",
+				"scopeName": "source.skript",
+				"path": "./syntaxes/skript.tmLanguage.json"
+			}
+		],
+		"semanticTokenScopes": [
+			{
+				"language": "skript",
+				"scopes": {
+					"function": ["entity.name.function.skript"],
+					"parameter": ["variable.parameter.skript"],
+					"variable": ["variable.other.skript"],
+					"macro": ["variable.other.constant.skript"],
+					"property": ["support.variable.property.skript"]
+				}
+			}
+		],
+		"configuration": {
+			"title": "GCB Skript",
+			"properties": {
+				"gcbSkript.roots": {
+					"type": "array",
+					"items": { "type": "string" },
+					"default": [],
+					"description": "워크스페이스 밖에서 추가로 인덱싱할 스크립트 폴더 절대경로 목록."
+				},
+				"gcbSkript.exclude": {
+					"type": "string",
+					"default": "**/node_modules/**",
+					"description": "인덱싱에서 제외할 glob. 원본 참고용 복사본(personal 등)까지 열려 있으면 여기서 빼면 정의로 이동이 엉뚱한 사본으로 가지 않는다."
+				},
+				"gcbSkript.showLocalFunctions": {
+					"type": "boolean",
+					"default": true,
+					"description": "자동완성에 현재 파일의 local function 도 포함한다. 다른 파일의 local 은 절대 포함하지 않는다."
+				}
+			}
+		},
+		"commands": [
+			{ "command": "gcbSkript.reindex", "title": "GCB Skript: 함수 인덱스 다시 만들기" }
+		]
+	}
+}

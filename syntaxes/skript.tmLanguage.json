@@ -1,0 +1,126 @@
+{
+	"name": "Skript",
+	"scopeName": "source.skript",
+	"patterns": [
+		{ "include": "#comment" },
+		{ "include": "#function-declaration" },
+		{ "include": "#expression-declaration" },
+		{ "include": "#import-line" },
+		{ "include": "#option-definition" },
+		{ "include": "#section-header" },
+		{ "include": "#string" },
+		{ "include": "#option-ref" },
+		{ "include": "#variable" },
+		{ "include": "#java-call" },
+		{ "include": "#keyword" },
+		{ "include": "#number" }
+	],
+	"repository": {
+		"comment": {
+			"match": "#.*$",
+			"name": "comment.line.number-sign.skript"
+		},
+		"function-declaration": {
+			"begin": "^\\s*(?:(local)\\s+)?(function)\\s+((?:[A-Za-z0-9_가-힣]|\\{@[A-Za-z0-9_.가-힣]+\\})+)\\s*(\\()",
+			"beginCaptures": {
+				"1": { "name": "storage.modifier.skript" },
+				"2": { "name": "storage.type.function.skript" },
+				"3": { "name": "entity.name.function.skript" },
+				"4": { "name": "punctuation.definition.parameters.begin.skript" }
+			},
+			"end": "$",
+			"patterns": [
+				{
+					"match": "([A-Za-z0-9_가-힣]+)\\s*(:)\\s*([A-Za-z0-9_]+)",
+					"captures": {
+						"1": { "name": "variable.parameter.skript" },
+						"2": { "name": "punctuation.separator.skript" },
+						"3": { "name": "support.type.skript" }
+					}
+				},
+				{
+					"match": "(::)\\s*([A-Za-z0-9_]+)",
+					"captures": {
+						"1": { "name": "keyword.operator.type.skript" },
+						"2": { "name": "support.type.skript" }
+					}
+				},
+				{ "include": "#comment" }
+			]
+		},
+		"expression-declaration": {
+			"match": "^(expression|event|effect|condition)\\s+(.+?)\\s*:\\s*$",
+			"captures": {
+				"1": { "name": "storage.type.skript" },
+				"2": { "name": "support.variable.property.skript" }
+			}
+		},
+		"import-line": {
+			"match": "^\\s+((?:[a-z][A-Za-z0-9_]*\\.)+)([A-Z][A-Za-z0-9_]*)(?:\\s+(as)\\s+([A-Za-z0-9_]+))?\\s*$",
+			"captures": {
+				"1": { "name": "entity.name.namespace.skript" },
+				"2": { "name": "entity.name.type.class.skript" },
+				"3": { "name": "keyword.control.skript" },
+				"4": { "name": "entity.name.type.class.skript" }
+			}
+		},
+		"option-definition": {
+			"match": "^\\t([A-Za-z0-9_.가-힣]+)(:)(?=\\s)",
+			"captures": {
+				"1": { "name": "variable.other.constant.skript" },
+				"2": { "name": "punctuation.separator.skript" }
+			}
+		},
+		"section-header": {
+			"match": "^(on|command|every|import|options|aliases|placeholderapi|usable in|return type)\\b",
+			"name": "keyword.control.section.skript"
+		},
+		"string": {
+			"begin": "\"",
+			"end": "\"",
+			"name": "string.quoted.double.skript",
+			"patterns": [
+				{ "match": "%[^%\"]*%", "name": "meta.embedded.expression.skript" },
+				{ "include": "#option-ref" }
+			]
+		},
+		"option-ref": {
+			"match": "\\{@[A-Za-z0-9_.가-힣]+\\}",
+			"name": "variable.other.constant.skript"
+		},
+		"variable": {
+			"patterns": [
+				{ "match": "\\{_[^}]*\\}", "name": "variable.other.readwrite.skript" },
+				{ "match": "\\{[^}@_][^}]*\\}", "name": "variable.other.global.skript" }
+			]
+		},
+		"java-call": {
+			"match": "\\b([A-Z][A-Za-z0-9_]*)(\\.)([A-Za-z_][A-Za-z0-9_]*)(?=\\s*\\()",
+			"captures": {
+				"1": { "name": "entity.name.type.class.skript" },
+				"2": { "name": "punctuation.accessor.skript" },
+				"3": { "name": "entity.name.function.member.skript" }
+			}
+		},
+		"keyword": {
+			"patterns": [
+				{
+					"match": "\\b(if|else if|else|loop|while|return|stop|continue|exit|wait|delay|trigger|is|isn't|is not|not|and|or|contains|matches|cancel event|cancelled)\\b",
+					"name": "keyword.control.skript"
+				},
+				{
+					"match": "\\b(set|add|remove all|remove|delete|clear|send|broadcast|make|create|cancel|execute|kill|teleport|give|play|apply|spawn|loop-value|loop-index|loop-player|with priority)\\b",
+					"name": "keyword.other.skript"
+				},
+				{
+					"match": "\\b(true|false|null|none|monitor|highest|high|normal|low|lowest)\\b",
+					"name": "constant.language.skript"
+				}
+			]
+		},
+		"number": {
+			"match": "\\b-?[0-9]+(\\.[0-9]+)?\\b",
+			"name": "constant.numeric.skript"
+		}
+	}
+}
