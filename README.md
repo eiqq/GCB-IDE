@@ -27,6 +27,25 @@ Releases 의 `.vsix` 를 받아 확장 탭 → `…` → **Install from VSIX...*
 
 저장하면 그 파일만 다시 인덱싱한다. 전체는 `Ctrl+Shift+P` → "GCB Skript: 함수 인덱스 다시 만들기".
 
+## Notepad++
+
+`npp/gen_npp.py` 가 N++ 용 파일을 만든다. N++ 가 기본 기능으로 해주는 것만 옮긴 버전이다 — **전역 함수 자동완성 + 파라미터 힌트 + 함수 목록 패널**.
+
+```
+python npp/gen_npp.py "<스크립트 폴더>" <출력폴더>
+```
+
+| 만들어지는 파일 | 복사할 곳 |
+|---|---|
+| `userDefineLangs/Skript.udl.xml` | `%APPDATA%\Notepad++\userDefineLangs\` |
+| `autoCompletion/Skript.xml` | `<N++설치폴더>\autoCompletion\` (관리자) |
+| `functionList/Skript.xml`, `functionList/overrideMap.xml` | `<N++설치폴더>\functionList\` (관리자) |
+
+UDL 은 `.sk` 를 물리기 위한 것뿐이고 색은 지정하지 않는다(전부 `colorStyle="0"`).
+설치 폴더 파일은 N++ 업데이트 때 덮어써지니 그때 스크립트를 다시 돌리면 된다.
+
+이벤트별 표현식과 파일별 `{@옵션}` 은 넣지 않았다. N++ 는 커서가 어느 블록·어느 파일에 있는지 모르는 평면 목록이라 넣으면 틀린 항목이 섞인다. 같은 파일 안의 옵션 이름은 N++ 기본 단어 자동완성이 잡아준다.
+
 ## 빌드
 
 npm 불필요. 파이썬만 있으면 된다.
